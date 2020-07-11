@@ -40,8 +40,7 @@
         const fadeButton = document.querySelector(".fade2black");
         const snakeButton = document.querySelector(".snake");
 
-        let squareSide = 40;
-        let squared = squareSide**2;
+        let squareSide = 4;
         const mother = document.querySelector("#mother");
        
 
@@ -55,7 +54,7 @@
         //FUNCTIONS
         function createGrid(){
             mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
-            for (i = 0; i < squared; i++){
+            for (i = 0; i < squareSide**2; i++){
                 const box = document.createElement("div");
                 box.classList.add("default");
                 box.addEventListener("mouseenter", changeColor);
@@ -68,9 +67,11 @@
             event.target.style.backgroundColor= "black";
         }
          
-        function reseter(event){
-            div.classList.add("default");
-            div.classList.remove("changed");
+        function reseter(){
+            console.log(children);
+            children.forEach(function (div) {
+                div.style.backgroundColor = "whitesmoke";
+            });
         }
 
         function resizer(){
@@ -112,7 +113,9 @@
 
 
         createGrid(squareSide);
-
+        let children = document.querySelectorAll(".default");
+        console.log(children);
+    
     </script>
 
     <style>
@@ -178,5 +181,8 @@
 
         
     </style>
+
+<script src=""></script>
+<style src=""></style>
 </body>
 </html>
