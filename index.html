@@ -34,17 +34,16 @@
 
     <script>
         //INITIALIZATIONS
-        const resetButton = document.querySelector("reset");
-        const resizeButton = document.querySelector("sizing");
-        const rgbButton = document.querySelector("rgb");
-        const fadeButton = document.querySelector("fade2black");
-        const snakeButton = document.querySelector("snake");
+        const resetButton = document.querySelector(".reset");
+        const resizeButton = document.querySelector(".sizing");
+        const rgbButton = document.querySelector(".rgb");
+        const fadeButton = document.querySelector(".fade2black");
+        const snakeButton = document.querySelector(".snake");
 
-        let squareSide = 16;
+        let squareSide = 40;
         let squared = squareSide**2;
         const mother = document.querySelector("#mother");
-        createGrid(squareSide);
-        base();
+       
 
         //MOUSE EVENTS
         resetButton.addEventListener("click", reseter);
@@ -55,23 +54,21 @@
             
         //FUNCTIONS
         function createGrid(){
+            mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
             for (i = 0; i < squared; i++){
-                const div = document.createElement("div");
-                div.classList.add("default");
-                mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
-                mother.appendChild(div);
+                const box = document.createElement("div");
+                box.classList.add("default");
+                box.addEventListener("mouseenter", changeColor);
+                box.style.backgroundColor = "whitesmoke";
+                mother.appendChild(box);
             }
         }
-
-        function base (){
-            div.addEventListener("mouseenter", changeColor)};
             
         function changeColor(event){
-            event.target.classList.add("changed");
-            event.target.classList.remove("default");
+            event.target.style.backgroundColor= "black";
         }
          
-        function reseter(){
+        function reseter(event){
             div.classList.add("default");
             div.classList.remove("changed");
         }
@@ -112,6 +109,9 @@
                 event.target.classList.remove("default");
             }
         }  //POR QUE SE EU TIRAR ISSO DO LOOP PARA DE FUNCIONAR?*/
+
+
+        createGrid(squareSide);
 
     </script>
 
@@ -158,9 +158,8 @@
         }
 
         .default{
-            background-color: whitesmoke;
             display: block;
-            transition: all 0.7s;
+            transition: all 0.1qs;
         }
 
         .changed{
