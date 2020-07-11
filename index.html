@@ -13,6 +13,9 @@
         <ul class="menu">
             <li class="reset"> RESET THE GRID </li>
             <li class="sizing"> RESIZE THE GRID</li>
+            <li class="rgb"> RANDOM RGB COLORS</li>
+            <li class="fade2black"> FADE TO BLACK</li>
+            <li class="snake"> MOUSE TRAIL</li>
         </ul>
     </section>
 
@@ -24,47 +27,91 @@
 
     <section id="footer">
         <ul class = "menu">
-            <li> This exercise is part of The Odin Project Curriculum </li>
-            <li> My other projects</li>
+            <li> <a href="https://www.theodinproject.com/courses/web-development-101/lessons/etch-a-sketch-project?ref=lnav">This exercise is part of The Odin Project Curriculum </a></li>
+            <li> <a href="https://github.com/lghiggino"> My other projects</a></li>
         </ul>
     </section>
 
     <script>
+        //INITIALIZATIONS
+        const resetButton = document.querySelector("reset");
+        const resizeButton = document.querySelector("sizing");
+        const rgbButton = document.querySelector("rgb");
+        const fadeButton = document.querySelector("fade2black");
+        const snakeButton = document.querySelector("snake");
 
-        const resetButton = document.querySelector("reset")
-        //resetButton.addEventListener("click", reset);
+        let squareSide = 16;
+        let squared = squareSide**2;
+        const mother = document.querySelector("#mother");
+        createGrid(squareSide);
+        base();
 
-        function reset(){
+        //MOUSE EVENTS
+        resetButton.addEventListener("click", reseter);
+        resizeButton.addEventListener("click", resizer);
+        rgbButton.addEventListener("click", colorer);
+        fadeButton.addEventListener("click", fader);
+        snakeButton.addEventListener("click", snaker);
+            
+        //FUNCTIONS
+        function createGrid(){
+            for (i = 0; i < squared; i++){
+                const div = document.createElement("div");
+                div.classList.add("default");
+                mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
+                mother.appendChild(div);
+            }
+        }
+
+        function base (){
+            div.addEventListener("mouseenter", changeColor)};
+            
+        function changeColor(event){
+            event.target.classList.add("changed");
+            event.target.classList.remove("default");
+        }
+         
+        function reseter(){
             div.classList.add("default");
             div.classList.remove("changed");
         }
 
-        let squareSide = prompt("How many squares per side on your grid?", "40");
-        // escrever o teste de valor NUMBER para squareSide
+        function resizer(){
+            squareSide = prompt("How many squares per side on your grid?", "16");
+            if (squareSide < 0 || squareSide === "" || isNaN(squareSide) || squareSide === undefined){
+                alert("You must choose a positive integer");
+                squareSide = prompt("How many squares per side on your grid?", "16");
+            }
+        }
 
-        let squared = squareSide**2;
-        const mother = document.querySelector("#mother");
+        function colorer(){
+            // A CADA EVENT MOUSEENTER RECALCULAR OS VALORES DE R, G e B
+            let r = Math.floor(Math.random()*256);
+            let g = Math.floor(Math.random()*256);
+            let b = Math.floor(Math.random()*256);
+            div.style.color = `rgb(${r}, ${g}, ${b})`; 
+        }
 
-        for (i = 0; i< squared; i++){
-            const div = document.createElement("div");
-            div.classList.add("default");
-            console.log(squareSide)
-            mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
-            mother.appendChild(div);
+        function fader(){}
+            //ADICIONAR ALPHA + 0.1 
+            // RGBA (255,255,255, +ALPHA)
+            //VER A NOTAÇÃO CORRETA DE RGBA
 
+        function snaker(){
+            /*div.addEventListener("mouseleave", resetColor);
+            function resetColor(event){
+                event.target.classList.add("default");
+                event.target.classList.remove("changed");
+            }*/ 
+        }
+    
+        /* function base (){
             div.addEventListener("mouseenter", changeColor);
             function changeColor(event){
                 event.target.classList.add("changed");
                 event.target.classList.remove("default");
             }
-            /*div.addEventListener("mouseleave", resetColor);
-            function resetColor(event){
-                event.target.classList.add("default");
-                event.target.classList.remove("changed");
-            }*/
-        }
-
-
+        }  //POR QUE SE EU TIRAR ISSO DO LOOP PARA DE FUNCIONAR?*/
 
     </script>
 
@@ -130,12 +177,7 @@
             margin-bottom: 0px;
         }
 
-        .footer>li{
-            background-color:slategray;
-            color: whitesmoke;
-            display: inline-block;
-            margin: 1em;
-        }
+        
     </style>
 </body>
 </html>
