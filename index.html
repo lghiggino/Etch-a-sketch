@@ -15,14 +15,11 @@
             <li class="sizing"> RESIZE THE GRID</li>
             <li class="rgb"> RANDOM RGB COLORS</li>
             <li class="fade2black"> FADE TO BLACK</li>
-            <li class="snake"> MOUSE TRAIL</li>
         </ul>
     </section>
 
     <section id="content">
-        <div id="mother">
-        
-        </div>
+        <div id="mother"></div>
     </section>
 
     <section id="footer">
@@ -38,23 +35,23 @@
         const resizeButton = document.querySelector(".sizing");
         const rgbButton = document.querySelector(".rgb");
         const fadeButton = document.querySelector(".fade2black");
-        const snakeButton = document.querySelector(".snake");
-
-        let squareSide = 4;
+        
         const mother = document.querySelector("#mother");
        
 
         //MOUSE EVENTS
         resetButton.addEventListener("click", reseter);
         resizeButton.addEventListener("click", resizer);
-        rgbButton.addEventListener("click", colorer);
+        rgbButton.addEventListener("click", randomRGB);
         fadeButton.addEventListener("click", fader);
-        snakeButton.addEventListener("click", snaker);
+       
             
         //FUNCTIONS
-        function createGrid(){
+        function createGrid(squareSide){
             mother.style.gridTemplateColumns = `repeat(${squareSide}, 1fr)`;
-            for (i = 0; i < squareSide**2; i++){
+            mother.style.gridTemplateRows = `repeat(${squareSide}, 1fr)`;
+            let squared = squareSide**2
+            for (i = 0; i < squared; i++){
                 const box = document.createElement("div");
                 box.classList.add("default");
                 box.addEventListener("mouseenter", changeColor);
@@ -64,30 +61,38 @@
         }
             
         function changeColor(event){
-            event.target.style.backgroundColor= "black";
+            let currentBackgroundColor = window.getComputedStyle(event.target)["backgroudn-color"];
+            switch(drawingStyle){
+                case "random":
+                event.target.style.backgroundColor = randomRGB();
+                break;
+                case "shade":
+                event.target.style.backgroundColor = rgbShader(0.8, currentBackgroundColor);
+                break;
+                default:
+                event.target.style.backgroundColor = "black";
+            }
         }
          
         function reseter(){
-            console.log(children);
-            children.forEach(function (div) {
-                div.style.backgroundColor = "whitesmoke";
+            document.querySelectorAll(".default").forEach(function(element) {
+                element.style.backgroundColor = "whitesmoke";
             });
         }
 
         function resizer(){
             squareSide = prompt("How many squares per side on your grid?", "16");
-            if (squareSide < 0 || squareSide === "" || isNaN(squareSide) || squareSide === undefined){
-                alert("You must choose a positive integer");
-                squareSide = prompt("How many squares per side on your grid?", "16");
+            while(mother.hasChildNodes()){
+                mother.removeChild(mother.firstChild);
             }
+            createGrid(squareSide);
         }
 
-        function colorer(){
-            // A CADA EVENT MOUSEENTER RECALCULAR OS VALORES DE R, G e B
+        function randomRGB(){
             let r = Math.floor(Math.random()*256);
             let g = Math.floor(Math.random()*256);
             let b = Math.floor(Math.random()*256);
-            div.style.color = `rgb(${r}, ${g}, ${b})`; 
+            return `rgb(${r}, ${g}, ${b})`; 
         }
 
         function fader(){}
@@ -95,26 +100,11 @@
             // RGBA (255,255,255, +ALPHA)
             //VER A NOTAÇÃO CORRETA DE RGBA
 
-        function snaker(){
-            /*div.addEventListener("mouseleave", resetColor);
-            function resetColor(event){
-                event.target.classList.add("default");
-                event.target.classList.remove("changed");
-            }*/ 
-        }
-    
-        /* function base (){
-            div.addEventListener("mouseenter", changeColor);
-            function changeColor(event){
-                event.target.classList.add("changed");
-                event.target.classList.remove("default");
-            }
-        }  //POR QUE SE EU TIRAR ISSO DO LOOP PARA DE FUNCIONAR?*/
-
-
+        let squareSide = 16;
+        let drawingStyle = "black"
         createGrid(squareSide);
         let children = document.querySelectorAll(".default");
-        console.log(children);
+        
     
     </script>
 
@@ -182,7 +172,7 @@
         
     </style>
 
-<script src=""></script>
-<style src=""></style>
+<!--<script src=""></script>
+<style src=""></style>-->
 </body>
 </html>
