@@ -38,7 +38,6 @@
         
         const mother = document.querySelector("#mother");
        
-
         //MOUSE EVENTS
         resetButton.addEventListener("click", reseter);
         resizeButton.addEventListener("click", resizer);
@@ -75,13 +74,23 @@
         }
          
         function reseter(){
-            document.querySelectorAll(".default").forEach(function(element) {
+            let box = document.querySelectorAll(".default");
+            box.forEach(function(element) {
                 element.style.backgroundColor = "whitesmoke";
             });
         }
 
         function resizer(){
-            squareSide = prompt("How many squares per side on your grid?", "16");
+            squareSide = prompt("How many squares per side on your grid? Max 100", "16");
+            if (squareSide > 100){
+                squareSide = 100;
+            } else if (squareSide <= 0){
+                squareSide = 16;
+                alert("aren't you silly?  hummm...")
+            } else if (isNaN(squareSide)){
+                squareSide = 16;
+                alert("aren't you silly?  hummm...")
+            }
             while(mother.hasChildNodes()){
                 mother.removeChild(mother.firstChild);
             }
