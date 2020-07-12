@@ -3,7 +3,7 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Page Title</title>
+    <title>Etch-a-sketch-in-black</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='reset.css'>
     
@@ -11,10 +11,10 @@
 <body>
     <section id="header">
         <ul class="menu">
-            <li class="reset"> RESET THE GRID </li>
-            <li class="sizing"> RESIZE THE GRID</li>
-            <li class="rgb"> RANDOM RGB COLORS</li>
-            <li class="fade2black"> FADE TO BLACK</li>
+            <input type="button" id="reset" value="RESET THIS GRID">
+            <input type="button" id="sizing" value="RESIZE THE GRID">
+            <input type="button" id="rgb"  value="RANDOM RGB COLORS">
+            <input type="button" id="fade2black" value="FADE TO BLACK">
         </ul>
     </section>
 
@@ -31,17 +31,18 @@
 
     <script>
         //INITIALIZATIONS
-        const resetButton = document.querySelector(".reset");
-        const resizeButton = document.querySelector(".sizing");
-        const rgbButton = document.querySelector(".rgb");
-        const fadeButton = document.querySelector(".fade2black");
+        const resetButton = document.querySelector("#reset");
+        const resizeButton = document.querySelector("#sizing");
+        const rgbButton = document.querySelector("#rgb");
+        const fadeButton = document.querySelector("#fade2black");
         
         const mother = document.querySelector("#mother");
        
+
         //MOUSE EVENTS
         resetButton.addEventListener("click", reseter);
         resizeButton.addEventListener("click", resizer);
-        rgbButton.addEventListener("click", randomRGB);
+        rgbButton.addEventListener("click", random);
         fadeButton.addEventListener("click", fader);
        
             
@@ -60,13 +61,14 @@
         }
             
         function changeColor(event){
-            let currentBackgroundColor = window.getComputedStyle(event.target)["backgroudn-color"];
+            //let currentBackgroundColor = window.getComputedStyle(event.target)["background-color"];
             switch(drawingStyle){
-                case "random":
+                case "rgb":
                 event.target.style.backgroundColor = randomRGB();
                 break;
-                case "shade":
-                event.target.style.backgroundColor = rgbShader(0.8, currentBackgroundColor);
+                case "fade2black":
+                console.log(shader());
+                event.target.style.backgroundColor = shader();
                 break;
                 default:
                 event.target.style.backgroundColor = "black";
@@ -78,6 +80,7 @@
             box.forEach(function(element) {
                 element.style.backgroundColor = "whitesmoke";
             });
+            drawingStyle = "black"
         }
 
         function resizer(){
@@ -85,7 +88,7 @@
             if (squareSide > 100){
                 squareSide = 100;
             } else if (squareSide <= 0){
-                squareSide = 16;
+                squareSide = 2;
                 alert("aren't you silly?  hummm...")
             } else if (isNaN(squareSide)){
                 squareSide = 16;
@@ -104,10 +107,18 @@
             return `rgb(${r}, ${g}, ${b})`; 
         }
 
-        function fader(){}
-            //ADICIONAR ALPHA + 0.1 
-            // RGBA (255,255,255, +ALPHA)
-            //VER A NOTAÇÃO CORRETA DE RGBA
+        function shader(){
+            let alpha = 0.1
+            return `rgba(0,0,0,${+alpha})`
+        }
+
+        function random(e){
+            drawingStyle = e.target.id;
+        }
+
+        function fader(e){
+            drawingStyle = e.target.id;
+        }
 
         let squareSide = 16;
         let drawingStyle = "black"
@@ -136,9 +147,10 @@
             justify-content: space-evenly;
         }
 
-        .menu>li{
+        .menu>input, li{
             background-color:slategray;
             color: whitesmoke;
+            cursor: pointer;
             display: inline-block;
             margin: 1em;
 
